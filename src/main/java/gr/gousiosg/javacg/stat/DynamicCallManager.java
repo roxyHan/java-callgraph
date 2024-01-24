@@ -81,10 +81,12 @@ public class DynamicCallManager {
         while (matcher.find()) {
             int bootIndex = Integer.parseInt(matcher.group(1));
             BootstrapMethod bootMethod = boots[bootIndex];
-            int calledIndex = bootMethod.getBootstrapArguments()[CALL_HANDLE_INDEX_ARGUMENT];
-            String calledName = getMethodNameFromHandleIndex(cp, calledIndex);
-            String callerName = method.getName();
-            dynamicCallers.put(calledName, callerName);
+            if (bootMethod.getBootstrapArguments().length > 1) {
+                int calledIndex = bootMethod.getBootstrapArguments()[CALL_HANDLE_INDEX_ARGUMENT];
+                String calledName = getMethodNameFromHandleIndex(cp, calledIndex);
+                String callerName = method.getName();
+                dynamicCallers.put(calledName, callerName);
+            }
         }
     }
 
